@@ -3,43 +3,27 @@ package org.rikardoricz.wolfsheep;
 public class Sheep extends Animal {
     private static final int MAX_ENERGY = 100;
     private static final int GRASS_ENERGY = 10;
-    private char symbol;
+    private final char symbol;
 
     public Sheep(int posX, int posY, int energy) {
         super(posX, posY, energy);
         symbol = 'S';
     }
 
-    // Move animal in random direction one cell max
-    @Override
-    public void move() {
-        int[] dx = {-1, 0, 1};
-        int[] dy = {1, -1, 0};
-        int randomIndex = (int) (Math.random() * 3);
-//        x += (int) (Math.random() * 2 - 1);
-//        y += (int) (Math.random() * 2 - 1);
-        int newX = posX + dx[randomIndex];
-        int newY = posY + dy[randomIndex];
-
-        if (newX >= 0 && newX < 10 && newY >= 0 && newY < 10) {
-            setPosX(newX);
-            setPosY(newY);
-        }
-    }
 
     @Override
     public void eat() {
-
+        // TODO: make sheeps eat grass and replenish energy
     }
 
     @Override
     public void reproduce() {
-
+        // TODO: write code to allow animals reproduction (remember of reproduction probability)
     }
 
     @Override
     public void die() {
-
+        // TODO: old and tired sheeps have to die :(
     }
 
     // Return animal symbol
