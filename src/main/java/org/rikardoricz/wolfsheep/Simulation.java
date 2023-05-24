@@ -1,5 +1,6 @@
 package org.rikardoricz.wolfsheep;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Simulation {
@@ -12,10 +13,22 @@ public class Simulation {
         board = new Board(width, height);
     }
 
+    public static void clearTerminal() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                new ProcessBuilder("bash", "-c", "clear").inheritIO().start().waitFor();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Runs the simulation
     public void run() {
         tickCounter = 0;
-        int simDurationTicks = 20;
+        int simDurationTicks = 100;
         // TODO: make prompt for silumation start values
 
 //        Board board = new Board(10,10);
@@ -37,18 +50,17 @@ public class Simulation {
         int tickCounter = 0;
 
         for (int i = 0; i < simDurationTicks; i++) {
-            board.draw();
-            board.update();
-            tickCounter++;
-            System.out.println("TICK: " + tickCounter);
-
             try {
-                Thread.sleep(1000);
+                clearTerminal();
+                board.draw();
+                board.update();
+                tickCounter++;
+                System.out.println("TICK: " + tickCounter);
+                Thread.sleep(300);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-
     }
 
     public static void main(String[] args) {
