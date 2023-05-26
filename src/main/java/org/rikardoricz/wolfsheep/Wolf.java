@@ -22,10 +22,10 @@ public class Wolf extends Animal {
 //        TODO: allow wolves to reproduce
     }
 
-//    @Override
-//    public void die() {
-//
-//    }
+    @Override
+    public void die() {
+
+    }
 
     // Return animal symbol
     @Override

@@ -1,8 +1,10 @@
 package org.rikardoricz.wolfsheep;
 
 import java.sql.Array;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 public class Board {
     private static final int MAX_WIDTH = 50;
@@ -45,36 +47,34 @@ public class Board {
         grasses.remove(grass);
     }
 
+    public boolean isEmpty() {
+        return animals.isEmpty();
+    }
+
     // Updates position of each animal (animals move)
     public void update() {
+        // if animal is dead then remove it from the board
+        animals.removeIf(Animal::isDead);
+
+        // move animals
         for (Animal animal : animals) {
             animal.move();
         }
+//        System.out.println(animals);
+
+//        IMPORTANT!!! You can't modify the List in for each loop. If you want to remove any elements in loop use iterator. You can remove elements using iterator.remove(); which deletes current element in the iterator.
+//        SO I CAN'T EXECUTE CODE BELOW:
+//        for (Animal animal : animals) {
+//            if (animal.isDead()) {
+//                removeAnimal(animal);
+//            }
+//        }
+//        for (Animal animal : animals) {
+//            System.out.println(animal.getId() + " " + animal.getEnergy());
+//        }
+
     }
 
-    // Draws symbols that represents animals on board
-//    public void draw() {
-//        for (int i = 0; i < width; i++) {
-//            for (int j = 0; j < height; j++) {
-//                // Printing board frame
-//                if (i == 0 || i == height - 1) {
-//                    if (j == 0 || j == width - 1) {
-//                        System.out.print("+");
-//                    } else {
-//                        System.out.print("-");
-//                    }
-//                } else {
-//                    if (j == 0 || j == width - 1) {
-//                        System.out.print("|");
-//                        // End of priting board frame
-//                    } else {
-//                        System.out.print(getSymbol(i, j));
-//                    }
-//                }
-//            }
-//            System.out.println();
-//        }
-//    }
     public static void printHorizontalBorder(int width) {
         System.out.printf("%-3s", "+--");
         for (int z = 0; z < width; z++) {
@@ -95,9 +95,10 @@ public class Board {
             System.out.println();
         }
         printHorizontalBorder(width);
+        System.out.println(animals.size() + " animals"); // displays current amount of animals on board
     }
 
-    // Returns symbol on (x, y) position
+    // Returns symbol on (x, y) position, doesn't include grass at the moment
     private char getSymbol(int x, int y) {
         for (Animal animal : animals) {
             if (animal.getPosX() == x && animal.getPosY() == y) {
@@ -107,6 +108,7 @@ public class Board {
         return '.';
     }
 
+//    OLD RUNNING SUMULATION IDEA (without Simulation class):
 //    public static void main(String[] args) {
 //        // for now dimensions of board are fixed, but in future user will be prompted for baord width and height
 //        Board board = new Board(10,10);

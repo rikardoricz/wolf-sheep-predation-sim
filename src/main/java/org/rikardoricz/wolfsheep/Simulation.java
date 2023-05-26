@@ -2,15 +2,20 @@ package org.rikardoricz.wolfsheep;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 public class Simulation {
     private Board board;
 //    private List<Animal> animals;
-    private int tickCounter;
+    private int tickCounter = 0;
+    private static final int SIM_DURATION_TICKS = 100;
 
     // Constructor
     public Simulation(int width, int height) {
         board = new Board(width, height);
+    }
+    public int getTickCounter() {
+        return tickCounter;
     }
 
     public static void clearTerminal() {
@@ -27,8 +32,6 @@ public class Simulation {
 
     // Runs the simulation
     public void run() {
-        tickCounter = 0;
-        int simDurationTicks = 100;
         // TODO: make prompt for silumation start values
 
 //        Board board = new Board(10,10);
@@ -47,16 +50,18 @@ public class Simulation {
         board.addAnimal(new Wolf(3,6,100));
         board.addAnimal(new Wolf(4,7,100));
 
-        int tickCounter = 0;
-
-        for (int i = 0; i < simDurationTicks; i++) {
+        for (int i = 0; i < SIM_DURATION_TICKS; i++) {
+            clearTerminal();
+            tickCounter++;
+            System.out.println("TICK: " + getTickCounter());
+            if (board.isEmpty()) {
+                System.out.println("PUSTO");
+                break;
+            }
+            board.draw();
+            board.update();
             try {
-                clearTerminal();
-                board.draw();
-                board.update();
-                tickCounter++;
-                System.out.println("TICK: " + tickCounter);
-                Thread.sleep(300);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

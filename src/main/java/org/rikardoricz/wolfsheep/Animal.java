@@ -1,21 +1,28 @@
 package org.rikardoricz.wolfsheep;
 
 public abstract class Animal {
+    public int id = 0;
+    public static int count = 0;
     int posX;
     int posY;
     private int energy;
     private char symbol;
     private Board board;
+    private static final int MOVE_COST = 30;
     private static final double REPRODUCE_PROB = 0.5;
 
     // Constructor
     public Animal(int posX, int posY, int energy) {
+        id = count++;
         this.posX = posX;
         this.posY = posY;
         this.energy = energy;
     }
 
     // Getters and setters
+    public int getId() {
+        return id;
+    }
     public int getPosX() {
         return posX;
     }
@@ -53,14 +60,19 @@ public abstract class Animal {
             setPosX(newX);
             setPosY(newY);
         }
+        if (newX != posX || newY != posY) {
+            setEnergy(getEnergy() - MOVE_COST); // each move cost some energy
+        }
+        System.out.println(getId() + " " + getEnergy() + " " + deltaMove[randIndexX] + " " + deltaMove[randIndexX]);
+        System.out.println(getPosX() + " " + getPosY());
     }
-    public void die() {
-        // TODO: write code to kill animals (I'm not a murderer)
+    public boolean isDead() {
+        return energy <= 0;
     }
-
     // Abstract methods
-    public abstract void reproduce();
     public abstract void eat();
+    public abstract void die();
+    public abstract void reproduce();
     public abstract char getSymbol();
 
 //    public void setReproduceProb(double reproduceProb) {
