@@ -1,14 +1,11 @@
 package org.rikardoricz.wolfsheep;
 
-import java.sql.Array;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 public class Board {
-    private static final int MAX_WIDTH = 50;
-    private static final int MAX_HEIGHT = 50;
+    private static final int MAX_WIDTH = 20;
+    private static final int MAX_HEIGHT = 20;
     private int width;
     private int height;
     private List<Animal> animals;
@@ -69,10 +66,6 @@ public class Board {
 //                removeAnimal(animal);
 //            }
 //        }
-//        for (Animal animal : animals) {
-//            System.out.println(animal.getId() + " " + animal.getEnergy());
-//        }
-
     }
 
     public static void printHorizontalBorder(int width) {
@@ -95,7 +88,17 @@ public class Board {
             System.out.println();
         }
         printHorizontalBorder(width);
+
+        printAnimalsInfo();
         System.out.println(animals.size() + " animals"); // displays current amount of animals on board
+    }
+    // Used just for print debugging
+    private void printAnimalsInfo() {
+        System.out.println("Id En X Y");
+        for (Animal animal : animals) {
+            System.out.println(animal.getId() + " " + animal.getEnergy() + " " + animal.getPosX() + " " + animal.getPosY());
+//            System.out.println(dx + " " + dy);
+        }
     }
 
     // Returns symbol on (x, y) position, doesn't include grass at the moment
