@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class Simulation {
     private Board board;
@@ -36,23 +37,6 @@ public class Simulation {
             e.printStackTrace();
         }
     }
-
-//    public void readConfigFile(Properties properties) {
-//        try {
-//            properties.load(new FileInputStream("config.properties"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        int boardWidth = properties.getIntProperty("boardWidth");
-//        int boardHeight =properties.getIntProperty("boardHeight");
-//        int sheepAmount = properties.getIntProperty("sheepAmount");
-//        int wolfAmount = properties.getIntProperty("wolfAmount");
-//        int reproductionProb = properties.getIntProperty("reproductionProb");
-//        int grassEnergy = properties.getIntProperty("grassEnergy");
-//        int sheepEnergy = properties.getIntProperty("sheepEnergy");
-//        int grassRegrowthTicks = properties.getIntProperty("grassRegrowthTicks");
-//    }
 
     // Runs the simulation
     public void run(int sheepAmount, int wolfAmount, double reproductionProb, int grassEnergy, int sheepEnergy, int grassRegrowthTicks) {
@@ -91,7 +75,13 @@ public class Simulation {
 
     public static void main(String[] args) {
         PropertyManager config = new PropertyManager();
-//        System.out.println("boardHeight = " + config.getProperty("boardHeight"));
+
+        try {
+            config.validateProperties();
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error loading or validating configuration file.");
+            System.exit(1);
+        }
         int boardWidth = config.getIntProperty("board.width");
         int boardHeight = config.getIntProperty("board.height");
         int durationTicks = config.getIntProperty("simulation.duration.ticks");
