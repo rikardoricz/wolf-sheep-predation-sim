@@ -27,7 +27,20 @@ This is an agent-based model simulation of the wolf-sheep predation dynamics. Th
     ```
 
 ## Configuration
-soon
+
+You can modify the simulation parameters by editing the `config.properties` file located in the `src/main/resources` directory. The available configuration options include:
+
+- `board.width`: The width of the simulation board.
+- `board.height`: The height of the simulation board.
+- `simulation.duration.ticks`: The time in ticks that simulation will run.
+- `initial.sheep.count`: The initial number of sheep in the simulation.
+- `initial.wolf.count`: The initial number of wolves in the simulation.
+- `reproduction.probability`: The probability of animals reproducing when they meet another animal of the same species.
+- `sheep.grass.energy`: The amount of energy a sheep gains from eating grass.
+- `wolf.sheep.energy`: The amount of energy a wolf gains from eating a sheep.
+- `grass.regrowth.time`: The time it takes for grass to regrow after being eaten.
+
+Feel free to adjust these parameters to observe different dynamics in the simulation.
 
 ## License
 This project is licensed under the [MIT License](LICENSE). See the `LICENSE` file for more details.
