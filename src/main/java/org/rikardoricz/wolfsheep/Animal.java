@@ -8,15 +8,17 @@ public abstract class Animal {
     private int energy;
     private char symbol;
     private Board board;
+    private double reproduceProb;
     private static final int MOVE_COST = 5;
-    private static final double REPRODUCE_PROB = 0.5;
+    private static final int MAX_ENERGY = 100;
 
     // Constructor
-    public Animal(int posX, int posY, int energy) {
+    public Animal(int posX, int posY, int energy, double reproduceProb) {
         id = count++;
         this.posX = posX;
         this.posY = posY;
         this.energy = energy;
+        this.reproduceProb = reproduceProb;
     }
 
     // Getters and setters
@@ -48,7 +50,7 @@ public abstract class Animal {
     }
 
     // Move animal in random direction one cell max
-    public void move() {
+    public void move(int width, int height) {
         int[] deltaMove = {-1, 0, 1};
         int randIndexX = (int) (Math.random() * deltaMove.length);
         int randIndexY = (int) (Math.random() * deltaMove.length);
@@ -58,7 +60,7 @@ public abstract class Animal {
         int newX = posX + dx;
         int newY = posY + dy;
         // TODO: get board width and height to use this instead of fixed values (10x10 for now)
-        if (newX >= 0 && newX < 10 && newY >= 0 && newY < 10) {
+        if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
             setPosX(newX);
             setPosY(newY);
             setEnergy(getEnergy() - MOVE_COST); // each move cost some energy

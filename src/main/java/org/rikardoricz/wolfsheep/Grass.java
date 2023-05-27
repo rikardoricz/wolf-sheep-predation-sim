@@ -3,12 +3,13 @@ package org.rikardoricz.wolfsheep;
 public class Grass {
     private int posX;
     private int posY;
-    private final int REGROWTH_TIME = 3; // amount of ticks that takes a grass to regrow
+    private int grassRegrowthTicks; // amount of ticks that takes a grass to regrow
     private static int regrowthCounter;
 
-    public Grass(int posX, int posY) {
+    public Grass(int posX, int posY, int grassRegrowthTicks) {
         this.posX = posX;
         this.posY = posY;
+        this.grassRegrowthTicks = grassRegrowthTicks;
     }
 
     public int getPosX() {

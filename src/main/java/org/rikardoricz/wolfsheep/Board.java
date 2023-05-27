@@ -55,8 +55,9 @@ public class Board {
 
         // move animals
         for (Animal animal : animals) {
-            animal.move();
+            animal.move(width, height);
         }
+        // TODO: update grass status
 //        System.out.println(animals);
 
 //        IMPORTANT!!! You can't modify the List in for each loop. If you want to remove any elements in loop use iterator. You can remove elements using iterator.remove(); which deletes current element in the iterator.
@@ -110,33 +111,4 @@ public class Board {
         }
         return '.';
     }
-
-//    OLD RUNNING SUMULATION IDEA (without Simulation class):
-//    public static void main(String[] args) {
-//        // for now dimensions of board are fixed, but in future user will be prompted for baord width and height
-//        Board board = new Board(10,10);
-//        board.addAnimal(new Sheep(0,0,100));
-//        board.addAnimal(new Sheep(1,1,100));
-//        board.addAnimal(new Sheep(2,2,100));
-//        board.addAnimal(new Sheep(3,3,100));
-//        board.addAnimal(new Wolf(1,4,100));
-//        board.addAnimal(new Wolf(2,5,100));
-//        board.addAnimal(new Wolf(3,6,100));
-//        board.addAnimal(new Wolf(4,7,100));
-//        int tickCounter = 0;
-//
-//        for (int i = 0; i < 20; i++) {
-//            board.draw();
-//            board.update();
-//            tickCounter++;
-//            System.out.println("TICK: " + tickCounter);
-//
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//    }
 }

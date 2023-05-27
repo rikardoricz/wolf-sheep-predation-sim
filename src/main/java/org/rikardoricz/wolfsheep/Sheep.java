@@ -1,13 +1,13 @@
 package org.rikardoricz.wolfsheep;
 
 public class Sheep extends Animal {
-    private static final int MAX_ENERGY = 100;
-    private static final int GRASS_ENERGY = 10;
+    private int grassEnergy;
     private final char symbol;
 
-    public Sheep(int posX, int posY, int energy) {
-        super(posX, posY, energy);
+    public Sheep(int posX, int posY, int energy, int grassEnergy, double reproductionProb) {
+        super(posX, posY, energy, reproductionProb);
         symbol = 'S';
+        this.grassEnergy = grassEnergy;
     }
 
 

@@ -1,14 +1,14 @@
 package org.rikardoricz.wolfsheep;
 
 public class Wolf extends Animal {
-    private static final int MAX_ENERGY = 100;
-    private static final int SHEEP_ENERGY = 20;
+    private int sheepEnegry;
     private final char symbol;
 
     // Constructor
-    public Wolf(int posX, int posY, int energy) {
-        super(posX, posY, energy);
+    public Wolf(int posX, int posY, int energy, int sheepEnegry, double reproductionProb) {
+        super(posX, posY, energy, reproductionProb);
         symbol = 'W';
+        this.sheepEnegry = sheepEnegry;
     }
 
 
@@ -24,7 +24,7 @@ public class Wolf extends Animal {
 
     @Override
     public void die() {
-
+//        TODO: kill wolves
     }
 
     // Return animal symbol
