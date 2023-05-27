@@ -92,15 +92,15 @@ public class Simulation {
     public static void main(String[] args) {
         PropertyManager config = new PropertyManager();
 //        System.out.println("boardHeight = " + config.getProperty("boardHeight"));
-        int boardWidth = config.getIntProperty("boardWidth");
-        int boardHeight = config.getIntProperty("boardHeight");
-        int durationTicks = config.getIntProperty("durationTicks");
-        int sheepAmount = config.getIntProperty("sheepAmount");
-        int wolfAmount = config.getIntProperty("wolfAmount");
-        double reproductionProb = config.getDoubleProperty("reproductionProb");
-        int grassEnergy = config.getIntProperty("grassEnergy");
-        int sheepEnergy = config.getIntProperty("sheepEnergy");
-        int grassRegrowthTicks = config.getIntProperty("grassRegrowthTicks");
+        int boardWidth = config.getIntProperty("board.width");
+        int boardHeight = config.getIntProperty("board.height");
+        int durationTicks = config.getIntProperty("simulation.duration.ticks");
+        int sheepAmount = config.getIntProperty("initial.sheep.amount");
+        int wolfAmount = config.getIntProperty("initial.wolf.amount");
+        double reproductionProb = config.getDoubleProperty("reproduction.probability");
+        int grassEnergy = config.getIntProperty("sheep.grass.energy");
+        int sheepEnergy = config.getIntProperty("wolf.sheep.energy");
+        int grassRegrowthTicks = config.getIntProperty("grass.regrowth.ticks");
 
         Simulation simulation = new Simulation(boardWidth, boardHeight, durationTicks);
         simulation.run(sheepAmount, wolfAmount, reproductionProb, grassEnergy, sheepEnergy, grassRegrowthTicks);
