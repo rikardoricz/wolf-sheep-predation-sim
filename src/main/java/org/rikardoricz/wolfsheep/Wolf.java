@@ -1,14 +1,18 @@
 package org.rikardoricz.wolfsheep;
 
 public class Wolf extends Animal {
-    private int sheepEnegry;
+    private static int sheepEnegry;
     private final char symbol;
 
     // Constructor
     public Wolf(int posX, int posY, int energy, int sheepEnegry, double reproductionProb) {
         super(posX, posY, energy, reproductionProb);
         symbol = 'W';
-        this.sheepEnegry = sheepEnegry;
+        Wolf.sheepEnegry = sheepEnegry;
+    }
+
+    public static int getSheepEnergy() {
+        return sheepEnegry;
     }
 
 
@@ -17,15 +21,16 @@ public class Wolf extends Animal {
 //        TODO: feed wolves
     }
 
-    @Override
-    public void reproduce() {
-//        TODO: allow wolves to reproduce
-    }
+//    @Override
+//    public Animal reproduce(int posX, int posY) {
+////        TODO: allow wolves to reproduce
+//        return new Wolf(posX, posY, 80, sheepEnegry, getReproduceProb());
+//    }
 
-    @Override
-    public void die() {
-//        TODO: kill wolves
-    }
+//    @Override
+//    public void die() {
+////        TODO: kill wolves
+//    }
 
     // Return animal symbol
     @Override

@@ -8,7 +8,7 @@ public abstract class Animal {
     private int energy;
     private char symbol;
     private Board board;
-    private double reproduceProb;
+    private static double reproduceProb;
     private static final int MOVE_COST = 5;
     private static final int MAX_ENERGY = 100;
 
@@ -18,7 +18,7 @@ public abstract class Animal {
         this.posX = posX;
         this.posY = posY;
         this.energy = energy;
-        this.reproduceProb = reproduceProb;
+        Animal.reproduceProb = reproduceProb;
     }
 
     // Getters and setters
@@ -48,6 +48,9 @@ public abstract class Animal {
     public void setEnergy(int energy) {
         this.energy = energy;
     }
+    public static double getReproduceProb() {
+        return reproduceProb;
+    }
 
     // Move animal in random direction one cell max
     public void move(int width, int height) {
@@ -59,22 +62,26 @@ public abstract class Animal {
 
         int newX = posX + dx;
         int newY = posY + dy;
-        // TODO: get board width and height to use this instead of fixed values (10x10 for now)
         if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
             setPosX(newX);
             setPosY(newY);
             setEnergy(getEnergy() - MOVE_COST); // each move cost some energy
         }
-//        System.out.println(getId() + " " + getEnergy() + " " + getPosX() + " " + getPosY());
-//        System.out.println(dx + " " + dy);
     }
     public boolean isDead() {
         return energy <= 0;
     }
 
+    public boolean canReproduce() {
+        double probability = getReproduceProb();
+//        System.out.println("Probability: " + probability);
+        double randomDouble = Math.random();
+        return randomDouble >= probability;
+    }
+
     // Abstract methods
     public abstract void eat();
-    public abstract void die();
-    public abstract void reproduce();
+//    public abstract void die();
+//    public abstract Animal reproduce(int posX, int posY);
     public abstract char getSymbol();
 }
