@@ -16,17 +16,10 @@ public class Sheep extends Animal {
 
     @Override
     public void eat() {
-        // TODO: make sheeps eat grass and replenish energy
-//        if (board.getGrass(posX, posY) > 0) {
-//            setEnergy(getEnergy() + grassEnergy);
-//        }
+        if (getEnergy() <= 100)
+            setEnergy(getEnergy() + grassEnergy);
     }
 
-//    @Override
-//    public Animal reproduce(int posX, int posY) {
-//        // TODO: write code to allow animals reproduction (remember of reproduction probability)
-//        return new Sheep(posX, posY, 80, grassEnergy, getReproduceProb());
-//    }
 
     // Return animal symbol
     @Override

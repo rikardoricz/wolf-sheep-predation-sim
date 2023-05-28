@@ -35,9 +35,9 @@ public class Simulation {
     public void run(int sheepAmount, int wolfAmount, double reproductionProb, int grassEnergy, int sheepEnergy, int grassRegrowthTicks) {
 
         System.out.println(board.getWidth() + " x " + board.getHeight());
-        for (int i = 0; i < board.getWidth(); i++) {
-            for (int j = 0; j < board.getHeight(); j++) {
-                board.addGrass(new Grass(i,j, grassRegrowthTicks));
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int j = 0; j < board.getWidth(); j++) {
+                board.addGrass(new Grass(i,j, 0,  grassRegrowthTicks));
             }
         }
         // Place both sheeps and wolves on board

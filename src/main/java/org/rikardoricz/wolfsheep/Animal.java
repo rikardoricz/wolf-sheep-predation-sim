@@ -6,6 +6,7 @@ public abstract class Animal {
     int posX;
     int posY;
     private int energy;
+    private int age;
     private char symbol;
     private Board board;
     private static double reproduceProb;
@@ -18,6 +19,7 @@ public abstract class Animal {
         this.posX = posX;
         this.posY = posY;
         this.energy = energy;
+        this.age = 0;
         Animal.reproduceProb = reproduceProb;
     }
 
@@ -48,12 +50,19 @@ public abstract class Animal {
     public void setEnergy(int energy) {
         this.energy = energy;
     }
+    public int getAge() {
+        return age;
+    }
+    public void setAge(int age) {
+        this.age = age;
+    }
     public static double getReproduceProb() {
         return reproduceProb;
     }
 
     // Move animal in random direction one cell max
     public void move(int width, int height) {
+        setAge(getAge() + 1);
         int[] deltaMove = {-1, 0, 1};
         int randIndexX = (int) (Math.random() * deltaMove.length);
         int randIndexY = (int) (Math.random() * deltaMove.length);

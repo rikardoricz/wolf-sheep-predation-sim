@@ -18,6 +18,8 @@ public class Wolf extends Animal {
 
     @Override
     public void eat() {
+        if (getEnergy() <= 100)
+            setEnergy(getEnergy() + sheepEnegry);
 //        TODO: feed wolves
     }
 
