@@ -38,7 +38,7 @@ You can modify the simulation parameters by editing the `config.properties` file
 - `reproduction.probability`: The probability of animals reproducing when they meet another animal of the same species.
 - `sheep.grass.energy`: The amount of energy a sheep gains from eating grass.
 - `wolf.sheep.energy`: The amount of energy a wolf gains from eating a sheep.
-- `grass.regrowth.time`: The time it takes for grass to regrow after being eaten.
+- `grass.regrowth.ticks`: The time it takes for grass to regrow after being eaten.
 
 Feel free to adjust these parameters to observe different dynamics in the simulation.
 
