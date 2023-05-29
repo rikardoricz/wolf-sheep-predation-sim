@@ -17,11 +17,15 @@ This is an agent-based model simulation of the wolf-sheep predation dynamics. Th
     ```shell
     cd wolf-sheep-predation-sim
     ```
-3. Build the project using Maven:
+3. Modify `config.properties` file with your editor of choice
+    ```shell
+    vim src/main/resources/config.properties
+    ```
+4. Build the project using Maven:
     ```shell
     mvn clean package
     ```
-4. Run the simulation:
+5. Run the simulation:
     ```shell
     java -jar target/wolf-sheep-predation.jar
     ```
