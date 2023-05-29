@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 public class Simulation {
     private Board board;
@@ -36,7 +37,7 @@ public class Simulation {
             CSVWriter writer = new CSVWriter(outputfile);
 
             // adding header to csv
-            String[] header = { "Tick", "Animals", "Wolves", "Sheeps", "New Wolves", "New Sheeps" };
+            String[] header = { "Tick", "Animals", "Wolves", "Sheeps", "New Wolves", "New Sheeps", "Dead Wolves", "Dead Sheeps" };
             writer.writeNext(header);
 
             // add data to csv
@@ -73,10 +74,18 @@ public class Simulation {
         }
         // Place both sheeps and wolves on board
         for (int i = 0; i < sheepAmount; i++) {
-            board.addAnimal(new Sheep(i, i, 100, grassEnergy, reproductionProb));
+            Random random = new Random();
+            int randomX = random.nextInt(board.getWidth());
+            int randomY = random.nextInt(board.getHeight());
+
+            board.addAnimal(new Sheep(randomX, randomY, 100, grassEnergy, reproductionProb));
         }
         for (int i = 0; i < wolfAmount; i++) {
-            board.addAnimal(new Wolf(i, i, 100, sheepEnergy, reproductionProb));
+            Random random = new Random();
+            int randomX = random.nextInt(board.getWidth());
+            int randomY = random.nextInt(board.getHeight());
+
+            board.addAnimal(new Wolf(randomX, randomY, 100, sheepEnergy, reproductionProb));
         }
 
         List<String[]> data = new ArrayList<>();
@@ -88,8 +97,8 @@ public class Simulation {
             clearTerminal();
             tickCounter++;
             System.out.println("TICK: " + getTickCounter());
-            if (board.isEmpty()) {
-                System.out.println("PUSTO");
+            if (board.isEmpty() || board.getSheeps().size() == 0 || board.getWolves().size() == 0) {
+                System.out.println("PUSTO lub tylko OWCE lub tylko WILKI");
                 break;
             }
             board.draw();

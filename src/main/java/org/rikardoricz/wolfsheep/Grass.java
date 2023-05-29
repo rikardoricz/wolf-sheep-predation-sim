@@ -38,11 +38,8 @@ public class Grass {
     public char getSymbol(int age) {
         if (age == 0)
             return '.';
-        else if (age == 1)
+        else if (age < grassRegrowthTicks/2)
             return '‥';
-        else if (age >= grassRegrowthTicks)
-            return '…';
-        else
-            return ' ';
+        else return '…';
     }
 }

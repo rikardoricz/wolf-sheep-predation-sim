@@ -16,8 +16,10 @@ public class Sheep extends Animal {
 
     @Override
     public void eat() {
-        if (getEnergy() <= 100)
+        if (getEnergy() <= MAX_ENERGY)
             setEnergy(getEnergy() + grassEnergy);
+        else
+            setEnergy(100);
     }
 
     // Return animal symbol

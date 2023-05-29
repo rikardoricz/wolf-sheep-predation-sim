@@ -10,8 +10,8 @@ public abstract class Animal {
     private char symbol;
     private Board board;
     private static double reproduceProb;
-    private static final int MOVE_COST = 5;
-    private static final int MAX_ENERGY = 100;
+    public static final int MOVE_COST = 2;
+    public static final int MAX_ENERGY = 100;
 
     // Constructor
     public Animal(int posX, int posY, int energy, double reproduceProb) {
@@ -61,7 +61,11 @@ public abstract class Animal {
     }
 
     // Move animal in random direction one cell max
-    public void move(int width, int height) {
+    public void move(int width, int height, Board board) {
+        if (getAge() > 35) {
+            setEnergy(0);
+            return ;
+        }
         setAge(getAge() + 1);
         int[] deltaMove = {-1, 0, 1};
         int randIndexX = (int) (Math.random() * deltaMove.length);

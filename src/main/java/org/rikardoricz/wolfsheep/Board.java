@@ -11,6 +11,8 @@ public class Board {
     private static final int MAX_HEIGHT = 20;
     private static int newbornSheepCount = 0;
     private static int newbornWolfCount = 0;
+    private static int deadSheepCount = 0;
+    private static int deadWolfCount = 0;
     private int width;
     private int height;
     private List<Animal> animals;
@@ -59,13 +61,21 @@ public class Board {
     public int getNewbornWolfCount() {
         return newbornWolfCount;
     }
+    public int getDeadSheepCount() {
+        return deadSheepCount;
+    }
+    public int getDeadWolfCount() {
+        return deadWolfCount;
+    }
     public String[] getTickData() {
-        String[] tickData = new String[6];
+        String[] tickData = new String[8];
         tickData[1] = Integer.toString(getAnimals().size());
         tickData[2] = Integer.toString(getWolves().size());
         tickData[3] = Integer.toString(getSheeps().size());
         tickData[4] = Integer.toString(getNewbornWolfCount());
         tickData[5] = Integer.toString(getNewbornSheepCount());
+        tickData[6] = Integer.toString(getDeadWolfCount());
+        tickData[7] = Integer.toString(getDeadSheepCount());
         return tickData;
     }
 
@@ -99,25 +109,27 @@ public class Board {
                 // Check if the two animals are of the same species.
                 if (animal1.getClass() == animal2.getClass()) {
                     // Check if the two animals are on the same position.
-                    if (animal1.getPosX() == animal2.getPosX() && animal1.getPosY() == animal2.getPosY() && animal1.getId() != animal2.getId() && animal1.getAge() > 5 && animal2.getAge() > 5) {
+                    if (animal1.getPosX() == animal2.getPosX() && animal1.getPosY() == animal2.getPosY() && animal1.getId() != animal2.getId() && animal1.getAge() > 7 && animal2.getAge() > 7) {
                         int reproductionPosX = animal1.getPosX();
                         int reproductionPosY = animal1.getPosY();
 //
                         // Check if both animals can reproduce
                         if (Animal.canReproduce()) {
 //                        if (animal1.canReproduce() && animal2.canReproduce()) {
-                            System.out.println(animal1.getId() + " SEXY TIME WITH " + animal2.getId());
+//                            System.out.println(animal1.getId() + " SEXY TIME WITH " + animal2.getId());
 
                             // Create a new animal of the same type as the two parents.
                             if (animal1 instanceof Wolf) {
                                 addAnimal(new Wolf(reproductionPosX, reproductionPosY, 80, Wolf.getSheepEnergy(), Animal.getReproduceProb()));
-                                System.out.println("ADDED WOLF");
+//                                System.out.println("ADDED WOLF");
                                 newbornWolfCount++;
                             } else if (animal1 instanceof Sheep) {
                                 addAnimal(new Sheep(reproductionPosX, reproductionPosY, 80, Sheep.getGrassEnergy(), Animal.getReproduceProb()));
-                                System.out.println("ADDED SHEEP");
+//                                System.out.println("ADDED SHEEP");
                                 newbornSheepCount++;
                             }
+                            animal1.setAge(0);
+                            animal2.setAge(0);
                         }
                     }
                 }
@@ -127,6 +139,8 @@ public class Board {
 
     // Updates position of each animal (animals move)
     public void update() {
+        deadWolfCount = 0;
+        deadSheepCount = 0;
         // reproduce if animals that are on the same position are the same species considering probability of reproduction
         reproduceIfSameSpecies();
         // move animals
@@ -142,7 +156,7 @@ public class Board {
 //                    for (Grass grass : grasses) {
                         if (animal.getPosX() == grass.getPosX() && animal.getPosY() == grass.getPosY() && grass.getAge() >= 3) {
                             animal.eat();
-                            System.out.println("SHEEP NAJEDZONKO " + grass.getPosX() + " " + grass.getPosY());
+//                            System.out.println("SHEEP NAJEDZONKO " + grass.getPosX() + " " + grass.getPosY());
                             grass.setAge(0);
                         }
                     }
@@ -151,19 +165,30 @@ public class Board {
                         Animal maybeSheep = animals.get(j);
 //                    }
 //                    for (Animal maybeSheep: animals) {
-                        if (maybeSheep instanceof Sheep && maybeSheep.getPosX() == animal.getPosX() && maybeSheep.getPosY() == animal.getPosY()) {
+                        if (maybeSheep instanceof Sheep && maybeSheep.getPosX() == animal.getPosX() && maybeSheep.getPosY() == animal.getPosY() && maybeSheep.getAge() >= 5) {
                             animal.eat();
-                            System.out.println("WOLF NAJEDZONKO " + maybeSheep.getId());
+//                            System.out.println("WOLF NAJEDZONKO " + maybeSheep.getId());
                             removeAnimal(maybeSheep);
+                            deadSheepCount++;
                         }
                     }
                 }
             }
             // move
-            animal.move(width, height);
+            animal.move(width, height, this);
         }
         // if animal is dead then remove it from the board
-        animals.removeIf(Animal::isDead);
+//        animals.removeIf(Animal::isDead);
+        for (int i = 0; i < animals.size(); i++) {
+            Animal animal = animals.get(i);
+            if (animal.isDead()) {
+                removeAnimal(animal);
+                if (animal instanceof Sheep)
+                    deadSheepCount++;
+                else
+                    deadWolfCount++;
+            }
+        }
         // TODO: update grass status
         for (Grass grass : grasses) {
             grass.regrow();
@@ -206,9 +231,9 @@ public class Board {
     }
     // Used just for print debugging
     private void printAnimalsInfo() {
-        System.out.println("Id En X Y");
+        System.out.println("Id Class Energy AGE X Y");
         for (Animal animal : animals) {
-            System.out.println(animal.getId() + " " + animal.getClass() + " " + animal.getEnergy() + " " + animal.getAge() + " " + animal.getPosX() + " " + animal.getPosY());
+//            System.out.println(animal.getId() + " " + animal.getClass() + " " + animal.getEnergy() + " " + animal.getAge() + " " + animal.getPosX() + " " + animal.getPosY());
         }
     }
 
