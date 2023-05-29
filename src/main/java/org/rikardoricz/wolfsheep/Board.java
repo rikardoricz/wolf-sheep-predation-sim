@@ -216,7 +216,7 @@ public class Board {
     private char getSymbol(int x, int y) {
         for (Animal animal : animals) {
             if (animal.getPosX() == x && animal.getPosY() == y) {
-                return animal.getSymbol();
+                return animal.getSymbol(animal.getAge());
             }
         }
         for (Grass grass : grasses) {

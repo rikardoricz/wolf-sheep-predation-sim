@@ -15,28 +15,17 @@ public class Wolf extends Animal {
         return sheepEnegry;
     }
 
-
     @Override
     public void eat() {
         if (getEnergy() <= 100)
             setEnergy(getEnergy() + sheepEnegry);
-//        TODO: feed wolves
     }
-
-//    @Override
-//    public Animal reproduce(int posX, int posY) {
-////        TODO: allow wolves to reproduce
-//        return new Wolf(posX, posY, 80, sheepEnegry, getReproduceProb());
-//    }
-
-//    @Override
-//    public void die() {
-////        TODO: kill wolves
-//    }
 
     // Return animal symbol
     @Override
-    public char getSymbol() {
+    public char getSymbol(int age) {
+        if (age < 5)
+            return 'w';
         return symbol;
     }
 }

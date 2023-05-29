@@ -20,10 +20,11 @@ public class Sheep extends Animal {
             setEnergy(getEnergy() + grassEnergy);
     }
 
-
     // Return animal symbol
     @Override
-    public char getSymbol() {
+    public char getSymbol(int age) {
+        if (age < 5)
+            return 's';
         return symbol;
     }
 }

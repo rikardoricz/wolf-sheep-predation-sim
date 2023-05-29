@@ -92,5 +92,5 @@ public abstract class Animal {
     public abstract void eat();
 //    public abstract void die();
 //    public abstract Animal reproduce(int posX, int posY);
-    public abstract char getSymbol();
+    public abstract char getSymbol(int age);
 }
