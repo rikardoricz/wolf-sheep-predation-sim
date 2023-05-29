@@ -1,5 +1,12 @@
 package org.rikardoricz.wolfsheep;
 
+import com.opencsv.CSVWriter;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class Simulation {
@@ -17,6 +24,30 @@ public class Simulation {
     }
     public int getTickCounter() {
         return tickCounter;
+    }
+
+    public static void writeDataToCSV(String filePath, List<String[]> data) {
+        File file = new File(filePath);
+        try {
+            // create FileWriter object with file as parameter
+            FileWriter outputfile = new FileWriter(file);
+
+            // create CSVWriter object filewriter object as parameter
+            CSVWriter writer = new CSVWriter(outputfile);
+
+            // adding header to csv
+            String[] header = { "Tick", "Animals", "Wolves", "Sheeps", "New Wolves", "New Sheeps" };
+            writer.writeNext(header);
+
+            // add data to csv
+            writer.writeAll(data);
+
+            // closing writer connection
+            writer.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void clearTerminal() {
@@ -48,7 +79,12 @@ public class Simulation {
             board.addAnimal(new Wolf(i, i, 100, sheepEnergy, reproductionProb));
         }
 
+        List<String[]> data = new ArrayList<>();
         for (int i = 0; i < durationTicks; i++) {
+            String [] tickData= board.getTickData();
+            tickData[0] = Integer.toString(i);
+
+            data.add(tickData);
             clearTerminal();
             tickCounter++;
             System.out.println("TICK: " + getTickCounter());
@@ -59,11 +95,12 @@ public class Simulation {
             board.draw();
             board.update();
             try {
-                Thread.sleep(300);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        writeDataToCSV("./db.csv", data);
     }
 
     public static void main(String[] args) {

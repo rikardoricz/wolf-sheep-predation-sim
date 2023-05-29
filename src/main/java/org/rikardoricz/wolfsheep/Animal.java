@@ -81,7 +81,7 @@ public abstract class Animal {
         return energy <= 0;
     }
 
-    public boolean canReproduce() {
+    public static boolean canReproduce() {
         double probability = getReproduceProb();
 //        System.out.println("Probability: " + probability);
         double randomDouble = Math.random();
