@@ -7,14 +7,30 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
+/**
+ * Use simulation's initial properties and manage it
+ */
 public class PropertyManager {
+    /**
+     * Config filename
+     */
     private static final String PROPERTIES_FILE = "config.properties";
+    /**
+     * Properties object that represents a persistent set of properties
+     */
     private Properties props = null;
 
+    /**
+     * Construct new property manager
+     */
     public PropertyManager() {
         loadProperties(PROPERTIES_FILE);
     }
 
+    /**
+     * Load properties from file
+     * @param filename Filename to get properties from and load them
+     */
     private void loadProperties(String filename) {
         props = new Properties();
         InputStream instream = null;
@@ -43,6 +59,11 @@ public class PropertyManager {
         }
     }
 
+    /**
+     * Get integer value of the property
+     * @param name Name of the property
+     * @return Integer value of the property
+     */
     public int getIntProperty (String name) {
         String value = props.getProperty(name);
         if (value == null)
@@ -58,6 +79,12 @@ public class PropertyManager {
             throw new IllegalArgumentException("The value of the property " + name + " is not a valid integer.");
         }
     }
+
+    /**
+     * Get double value of the property
+     * @param name Name of the property
+     * @return Double value of the property
+     */
     public Double getDoubleProperty (String name) {
         String value = props.getProperty(name);
         if (value == null) {
@@ -75,6 +102,9 @@ public class PropertyManager {
         }
     }
 
+    /**
+     * Validate properties. Check if all needed properties are present loaded properties from file
+     */
     public void validateProperties() {
         String[] integerProperties = {
                 "board.width",

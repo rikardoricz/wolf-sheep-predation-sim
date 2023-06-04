@@ -1,20 +1,47 @@
 package org.rikardoricz.wolfsheep;
 
+/**
+ * Wolf animal
+ */
 public class Wolf extends Animal {
+    /**
+     * The amount of energy the wolf gains from eating a sheep
+     */
     private static int sheepEnegry;
+
+    /**
+     * Character that represents a wolf on a board
+     */
     private final char symbol;
 
     // Constructor
+
+    /**
+     * Construct a new wolf
+     *
+     * @param posX X starting position on a board
+     * @param posY Y starting position on a board
+     * @param energy Initial energy level
+     * @param sheepEnegry The amount of energy the wolf gains from eating a sheep
+     * @param reproductionProb Reproduction probability
+     */
     public Wolf(int posX, int posY, int energy, int sheepEnegry, double reproductionProb) {
         super(posX, posY, energy, reproductionProb);
         symbol = 'W';
         Wolf.sheepEnegry = sheepEnegry;
     }
 
+    /**
+     * Get amount of energy the wolf gains from eating a sheep
+     * @return The amount of energy the wolf gains from eating a sheep
+     */
     public static int getSheepEnergy() {
         return sheepEnegry;
     }
 
+    /**
+     * Replenish energy level with energy from eating sheep
+     */
     @Override
     public void eat() {
         if (getEnergy() <= MAX_ENERGY)
@@ -23,6 +50,15 @@ public class Wolf extends Animal {
             setEnergy(100);
     }
 
+    /**
+     * The wolf follows the sheep if the sheep is on the field next to it.
+     * Otherwise, the wolf moves randomly by one step.
+     * @see Animal
+     *
+     * @param width Width of the board
+     * @param height Height of the board
+     * @param board The board on which the ismulation takes place
+     */
     @Override
     public void move(int width, int height, Board board) {
         if (getAge() > 15) {
@@ -34,16 +70,11 @@ public class Wolf extends Animal {
         setEnergy(getEnergy() - MOVE_COST);
         for (Animal animal : board.getAnimals()) {
             if ((animal instanceof Sheep) && (Math.abs(animal.getPosX() - this.getPosX()) <= 1) && (Math.abs(animal.getPosY() - this.getPosY()) <= 1)) {
-//                System.out.println("SHEEP DETECTED TARGET LOCKED");
-//                System.out.println(getId() + " chase " + animal.getId());
-
-//                new java.util.Scanner(System.in).nextLine();
                 if (animal.getPosX() == this.getPosX() && animal.getPosY() == this.getPosY()) {
                     return ;
                 }
                 setPosX(animal.getPosX());
                 setPosY(animal.getPosY());
-//                break;
                 return;
             }
         }
@@ -58,10 +89,15 @@ public class Wolf extends Animal {
         if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
             setPosX(newX);
             setPosY(newY);
-//                setEnergy(getEnergy() - MOVE_COST); // each move cost some energy
         }
     }
-    // Return animal symbol
+
+    /**
+     * Get character representing the wolf on a board based on its age
+     *
+     * @param age Age of a wolf that determines the displayed char
+     * @return Character representing the wolf on a board
+     */
     @Override
     public char getSymbol(int age) {
         if (age < 5)

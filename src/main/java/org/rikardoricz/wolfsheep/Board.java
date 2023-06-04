@@ -1,24 +1,60 @@
 package org.rikardoricz.wolfsheep;
 
-import java.sql.Array;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.ListIterator;
 
+/**
+ * Board on which the simulation is happening. It has all the object present in the simulation - grass, wolves and sheeps
+ */
 public class Board {
-    private static final int MAX_WIDTH = 20;
-    private static final int MAX_HEIGHT = 20;
+    /**
+     * Counter of newborn sheeps in each simulation tick
+     */
     private static int newbornSheepCount = 0;
+
+    /**
+     * Counter of newborn wolves in each simulation tick
+     */
     private static int newbornWolfCount = 0;
+
+    /**
+     * Counter of dead sheeps in each simulation tick
+     */
     private static int deadSheepCount = 0;
+
+    /**
+     * Counter of dead wolves in each simulation tick
+     */
     private static int deadWolfCount = 0;
-    private int width;
-    private int height;
+
+    /**
+     * Height of the board
+     */
+    private final int width;
+
+    /**
+     * Width of the board
+     */
+    private final int height;
+
+    /**
+     * List of animal objects (both sheeps and wolves) that are present on a board
+     */
     private List<Animal> animals;
+
+    /**
+     * List of grass objects that are present on a board
+     */
     private List<Grass> grasses;
 
     // Constructor
+
+    /**
+     * Construct a new board
+     *
+     * @param width Width of the board
+     * @param height Height of the board
+     */
     public Board(int width, int height) {
         this.width = width;
         this.height = height;
@@ -27,17 +63,36 @@ public class Board {
     }
 
     // Getters
+
+    /**
+     * Get width of the board
+     * @return Width of the board
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Get height of the board
+     *
+     * @return Height of the board
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Get list of animals
+     * @return List of animals
+     */
     public List<Animal> getAnimals() {
         return animals;
     }
+
+    /**
+     * Get list of wolves
+     * @return List of wolves
+     */
     public List<Wolf> getWolves() {
         List<Wolf> wolves = new ArrayList<>();
         for (Animal animal : animals) {
@@ -46,6 +101,12 @@ public class Board {
         }
         return wolves;
     }
+
+    /**
+     * Get list of sheeps
+     *
+     * @return List of sheeps
+     */
     public List<Sheep> getSheeps() {
         List<Sheep> sheeps = new ArrayList<>();
         for (Animal animal : animals) {
@@ -55,18 +116,42 @@ public class Board {
         return sheeps;
     }
 
+    /**
+     * Get number of newborn sheeps
+     * @return Number of newborn sheeps
+     */
     public int getNewbornSheepCount() {
         return newbornSheepCount;
     }
+
+    /**
+     * Get number of newborn wolves
+     * @return Number of newborn wolves
+     */
     public int getNewbornWolfCount() {
         return newbornWolfCount;
     }
+
+    /**
+     * Get number of dead sheeps
+     * @return Number of dead sheeps
+     */
     public int getDeadSheepCount() {
         return deadSheepCount;
     }
+
+    /**
+     * Get number of dead wolves
+     * @return Number of dead wolves
+     */
     public int getDeadWolfCount() {
         return deadWolfCount;
     }
+
+    /**
+     * Get data from each simulation tick
+     * @return Array of strings - simulation data
+     */
     public String[] getTickData() {
         String[] tickData = new String[8];
         tickData[1] = Integer.toString(getAnimals().size());
@@ -80,22 +165,45 @@ public class Board {
     }
 
     // Adds animal (Wolf or Sheep) to List of animals
+
+    /**
+     * Add animal to list of animals
+     * @param animal Animal to be added to list of animals
+     */
     public void addAnimal(Animal animal) {
         animals.add(animal);
     }
 
     // Removes animal (Wolf or Sheep_ from List of animals
+
+    /**
+     * Remove animal from list of animals
+     * @param animal Animal to be removed from list of animals
+     */
     public void removeAnimal(Animal animal) {
         animals.remove(animal);
     }
+
+    /**
+     * Add grass to list of grasses
+     * @param grass Grass object to be added to list of grasses
+     */
     public void addGrass(Grass grass) {
         grasses.add(grass);
     }
 
+    /**
+     * Check if the list of animals is empty
+     * @return Whether list of animals if empty
+     */
     public boolean isEmpty() {
         return animals.isEmpty();
     }
 
+    /**
+     * Perform reproduction if two animals of the same species are on the same position.
+     * Consider reproduction probability.
+     */
     private void reproduceIfSameSpecies() {
         // reset counters
         newbornWolfCount = 0;
@@ -112,20 +220,14 @@ public class Board {
                     if (animal1.getPosX() == animal2.getPosX() && animal1.getPosY() == animal2.getPosY() && animal1.getId() != animal2.getId() && animal1.getAge() > 7 && animal2.getAge() > 7) {
                         int reproductionPosX = animal1.getPosX();
                         int reproductionPosY = animal1.getPosY();
-//
                         // Check if both animals can reproduce
                         if (Animal.canReproduce()) {
-//                        if (animal1.canReproduce() && animal2.canReproduce()) {
-//                            System.out.println(animal1.getId() + " SEXY TIME WITH " + animal2.getId());
-
                             // Create a new animal of the same type as the two parents.
                             if (animal1 instanceof Wolf) {
                                 addAnimal(new Wolf(reproductionPosX, reproductionPosY, 80, Wolf.getSheepEnergy(), Animal.getReproduceProb()));
-//                                System.out.println("ADDED WOLF");
                                 newbornWolfCount++;
                             } else if (animal1 instanceof Sheep) {
                                 addAnimal(new Sheep(reproductionPosX, reproductionPosY, 80, Sheep.getGrassEnergy(), Animal.getReproduceProb()));
-//                                System.out.println("ADDED SHEEP");
                                 newbornSheepCount++;
                             }
                             animal1.setAge(0);
@@ -138,6 +240,11 @@ public class Board {
     }
 
     // Updates position of each animal (animals move)
+    /**
+     * Update position of each animal, check for reproduction and perform eating operation.
+     * Remove animal if it's dead.
+     * Update grass status.
+     */
     public void update() {
         deadWolfCount = 0;
         deadSheepCount = 0;
@@ -178,7 +285,6 @@ public class Board {
             animal.move(width, height, this);
         }
         // if animal is dead then remove it from the board
-//        animals.removeIf(Animal::isDead);
         for (int i = 0; i < animals.size(); i++) {
             Animal animal = animals.get(i);
             if (animal.isDead()) {
@@ -189,22 +295,16 @@ public class Board {
                     deadWolfCount++;
             }
         }
-        // TODO: update grass status
+        // update grass status
         for (Grass grass : grasses) {
             grass.regrow();
         }
-
-//        System.out.println(animals);
-
-//        IMPORTANT!!! You can't modify the List in for each loop. If you want to remove any elements in loop use iterator. You can remove elements using iterator.remove(); which deletes current element in the iterator.
-//        SO I CAN'T EXECUTE CODE BELOW:
-//        for (Animal animal : animals) {
-//            if (animal.isDead()) {
-//                removeAnimal(animal);
-//            }
-//        }
     }
 
+    /**
+     * Print horizontal border of the board
+     * @param width Width of the board
+     */
     public static void printHorizontalBorder(int width) {
         System.out.printf("%-3s", "+--");
         for (int z = 0; z < width; z++) {
@@ -213,12 +313,15 @@ public class Board {
         System.out.printf("%-3s", "+");
         System.out.println();
     }
+
+    /**
+     * Draw the board with its content - grass and animals
+     */
     public void draw() {
         printHorizontalBorder(width);
         for (int i = 0; i < height; i++) {
             System.out.printf("%-3s", "|");
             for (int j = 0; j < width; j++) {
-                // TODO: mark accordingly on board when wolf and sheep overlap
                 System.out.printf("%-3s", getSymbol(i, j));
             }
             System.out.printf("%-3s", "|");
@@ -226,18 +329,17 @@ public class Board {
         }
         printHorizontalBorder(width);
 
-        printAnimalsInfo();
         System.out.println(animals.size() + " animals"); // displays current amount of animals on board
-    }
-    // Used just for print debugging
-    private void printAnimalsInfo() {
-        System.out.println("Id Class Energy AGE X Y");
-        for (Animal animal : animals) {
-//            System.out.println(animal.getId() + " " + animal.getClass() + " " + animal.getEnergy() + " " + animal.getAge() + " " + animal.getPosX() + " " + animal.getPosY());
-        }
     }
 
     // Returns symbol on (x, y) position, doesn't include grass at the moment
+
+    /**
+     * Get character of an object on (x,y) position
+     * @param x X index of the board
+     * @param y Y index of the board
+     * @return Char representing the object (animal or grass) on (x,y) position
+     */
     private char getSymbol(int x, int y) {
         for (Animal animal : animals) {
             if (animal.getPosX() == x && animal.getPosY() == y) {

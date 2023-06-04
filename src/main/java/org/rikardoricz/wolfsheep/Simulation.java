@@ -10,23 +10,59 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 
+/**
+ * Run and control the simulation and write collected data to CSV-formatted file
+ */
 public class Simulation {
+    /**
+     * Board object on which the simulation is happening. It has all the object present in the simulation
+     */
     private Board board;
+
+    /**
+     * Properties object necessary for property manager
+     * @see PropertyManager
+     */
     private Properties properties;
-    private int durationTicks;
-//    private List<Animal> animals;
+
+    /**
+     * Simulation's duration in ticks
+     */
+    private final int durationTicks;
+
+    /**
+     * Counter of simulation's ticks
+     */
     private int tickCounter = 0;
 
     // Constructor
+
+    /**
+     * Construct new simulation
+     *
+     * @param width Board width
+     * @param height Board height
+     * @param durationTicks Simulation's duration in ticks
+     */
     public Simulation(int width, int height, int durationTicks) {
         board = new Board(width, height);
         this.properties = new Properties();
         this.durationTicks = durationTicks;
     }
+
+    /**
+     * Get number of ticks
+     * @return Number of ticks
+     */
     public int getTickCounter() {
         return tickCounter;
     }
 
+    /**
+     * Write collected data of the simulation to CSV-formatted file
+     * @param filePath Path to write file to
+     * @param data Data to be written to file
+     */
     public static void writeDataToCSV(String filePath, List<String[]> data) {
         File file = new File(filePath);
         try {
@@ -51,6 +87,9 @@ public class Simulation {
         }
     }
 
+    /**
+     * Clear terminal window for clarity
+     */
     public static void clearTerminal() {
         try {
             if (System.getProperty("os.name").contains("Windows")) {
@@ -64,6 +103,15 @@ public class Simulation {
     }
 
     // Runs the simulation
+    /**
+     * Run and control the simulation. Add sheeps, wolves and grass
+     * @param sheepAmount Initial sheep amount on the board
+     * @param wolfAmount Initial wolf amount on the board
+     * @param reproductionProb Probability of reproduction
+     * @param grassEnergy The amount of energy the sheep gains from eating a grass
+     * @param sheepEnergy The amount of energy the wolf gains from eating a sheep
+     * @param grassRegrowthTicks Amount of simulation ticks that takes a grass to (re)grow and be available to eat by sheeps again
+     */
     public void run(int sheepAmount, int wolfAmount, double reproductionProb, int grassEnergy, int sheepEnergy, int grassRegrowthTicks) {
 
         System.out.println(board.getWidth() + " x " + board.getHeight());
@@ -72,7 +120,7 @@ public class Simulation {
                 board.addGrass(new Grass(i,j, 0,  grassRegrowthTicks));
             }
         }
-        // Place both sheeps and wolves on board
+        // Place sheeps on the board
         for (int i = 0; i < sheepAmount; i++) {
             Random random = new Random();
             int randomX = random.nextInt(board.getWidth());
@@ -80,6 +128,7 @@ public class Simulation {
 
             board.addAnimal(new Sheep(randomX, randomY, 100, grassEnergy, reproductionProb));
         }
+        // Place wolves on the board
         for (int i = 0; i < wolfAmount; i++) {
             Random random = new Random();
             int randomX = random.nextInt(board.getWidth());
@@ -89,6 +138,10 @@ public class Simulation {
         }
 
         List<String[]> data = new ArrayList<>();
+
+        System.out.println("Press any key to start the simulation...");
+        new java.util.Scanner(System.in).nextLine();
+
         for (int i = 0; i < durationTicks; i++) {
             String [] tickData= board.getTickData();
             tickData[0] = Integer.toString(i);
@@ -98,7 +151,11 @@ public class Simulation {
             tickCounter++;
             System.out.println("TICK: " + getTickCounter());
             if (board.isEmpty() || board.getSheeps().size() == 0 || board.getWolves().size() == 0) {
-                System.out.println("PUSTO lub tylko OWCE lub tylko WILKI");
+                System.out.println("""
+                        The board is empty\s
+                        OR there are only sheeps\s
+                        OR there are only wolves\s
+                        SEE db.csv file for results""");
                 break;
             }
             board.draw();
@@ -112,6 +169,11 @@ public class Simulation {
         writeDataToCSV("./db.csv", data);
     }
 
+    /**
+     * The application's entry point
+     * The initial values from config.properties file are validated and the simulation is run
+     * @param args An array of command-line arguments for the application
+     */
     public static void main(String[] args) {
         PropertyManager config = new PropertyManager();
 
