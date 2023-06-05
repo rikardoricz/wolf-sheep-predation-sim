@@ -17,12 +17,12 @@ public abstract class Animal {
     /**
      * X index of the animal's position on a board
      */
-    int posX;
+    private int posX;
 
     /**
      * Y index of the animal's position on a board
      */
-    int posY;
+    private int posY;
 
     /**
      * Variable energy level of an animal
@@ -168,8 +168,8 @@ public abstract class Animal {
         int dx = deltaMove[randIndexX];
         int dy = deltaMove[randIndexY];
 
-        int newX = posX + dx;
-        int newY = posY + dy;
+        int newX = getPosX() + dx;
+        int newY = getPosY() + dy;
         if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
             setPosX(newX);
             setPosY(newY);

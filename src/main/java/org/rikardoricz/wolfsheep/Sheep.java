@@ -12,7 +12,7 @@ public class Sheep extends Animal {
     /**
      * Character that represents a sheep on a board
      */
-    private final char symbol;
+    private final char SYMBOL;
 
     /**
      * Construct a new sheep
@@ -25,7 +25,7 @@ public class Sheep extends Animal {
      */
     public Sheep(int posX, int posY, int energy, int grassEnergy, double reproductionProb) {
         super(posX, posY, energy, reproductionProb);
-        symbol = 'S';
+        SYMBOL = 'S';
         Sheep.grassEnergy = grassEnergy;
     }
 
@@ -58,7 +58,7 @@ public class Sheep extends Animal {
     @Override
     public char getSymbol(int age) {
         if (age < 5)
-            return 's';
-        return symbol;
+            return Character.toLowerCase(SYMBOL);
+        return SYMBOL;
     }
 }

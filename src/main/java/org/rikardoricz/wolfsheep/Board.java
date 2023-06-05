@@ -30,12 +30,12 @@ public class Board {
     /**
      * Height of the board
      */
-    private final int width;
+    private final int WIDTH;
 
     /**
      * Width of the board
      */
-    private final int height;
+    private final int HEIGHT;
 
     /**
      * List of animal objects (both sheeps and wolves) that are present on a board
@@ -56,8 +56,8 @@ public class Board {
      * @param height Height of the board
      */
     public Board(int width, int height) {
-        this.width = width;
-        this.height = height;
+        this.WIDTH = width;
+        this.HEIGHT = height;
         animals = new ArrayList<>();
         grasses = new ArrayList<>();
     }
@@ -69,7 +69,7 @@ public class Board {
      * @return Width of the board
      */
     public int getWidth() {
-        return width;
+        return WIDTH;
     }
 
     /**
@@ -78,7 +78,7 @@ public class Board {
      * @return Height of the board
      */
     public int getHeight() {
-        return height;
+        return HEIGHT;
     }
 
     /**
@@ -282,7 +282,7 @@ public class Board {
                 }
             }
             // move
-            animal.move(width, height, this);
+            animal.move(WIDTH, HEIGHT, this);
         }
         // if animal is dead then remove it from the board
         for (int i = 0; i < animals.size(); i++) {
@@ -318,16 +318,16 @@ public class Board {
      * Draw the board with its content - grass and animals
      */
     public void draw() {
-        printHorizontalBorder(width);
-        for (int i = 0; i < height; i++) {
+        printHorizontalBorder(WIDTH);
+        for (int i = 0; i < HEIGHT; i++) {
             System.out.printf("%-3s", "|");
-            for (int j = 0; j < width; j++) {
+            for (int j = 0; j < WIDTH; j++) {
                 System.out.printf("%-3s", getSymbol(i, j));
             }
             System.out.printf("%-3s", "|");
             System.out.println();
         }
-        printHorizontalBorder(width);
+        printHorizontalBorder(WIDTH);
 
         System.out.println(animals.size() + " animals"); // displays current amount of animals on board
     }

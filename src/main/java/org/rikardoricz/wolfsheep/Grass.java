@@ -7,12 +7,12 @@ public class Grass {
     /**
      * X index of the grass' position on a board
      */
-    private final int posX;
+    private final int POS_X;
 
     /**
      * Y index of the grass' position on a board
      */
-    private final int posY;
+    private final int POS_Y;
 
     /**
      * Age of a grass that increments each simulation tick. And resets if eaten.
@@ -22,7 +22,7 @@ public class Grass {
     /**
      * Amount of simulation ticks that takes a grass to (re)grow and be available to eat by sheeps
      */
-    private final int grassRegrowthTicks;
+    private final int GRASS_REGROWTH_TICKS;
 
     /**
      * Construct a new grass
@@ -33,10 +33,10 @@ public class Grass {
      * @param grassRegrowthTicks Amount of simulation ticks that takes a grass to (re)grow and be available to eat by sheeps again
      */
     public Grass(int posX, int posY, int age, int grassRegrowthTicks) {
-        this.posX = posX;
-        this.posY = posY;
+        this.POS_X = posX;
+        this.POS_Y = posY;
         this.age = age;
-        this.grassRegrowthTicks = grassRegrowthTicks;
+        this.GRASS_REGROWTH_TICKS = grassRegrowthTicks;
     }
 
     /**
@@ -44,7 +44,7 @@ public class Grass {
      * @return X index of the grass' position
      */
     public int getPosX() {
-        return posX;
+        return POS_X;
     }
 
     /**
@@ -52,7 +52,7 @@ public class Grass {
      * @return Y index of the grass' position
      */
     public int getPosY() {
-        return posY;
+        return POS_Y;
     }
 
     /**
@@ -88,7 +88,7 @@ public class Grass {
     public char getSymbol(int age) {
         if (age == 0)
             return '.';
-        else if (age < grassRegrowthTicks/2)
+        else if (age < GRASS_REGROWTH_TICKS /2)
             return '‥';
         else return '…';
     }

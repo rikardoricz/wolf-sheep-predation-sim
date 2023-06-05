@@ -12,7 +12,7 @@ public class Wolf extends Animal {
     /**
      * Character that represents a wolf on a board
      */
-    private final char symbol;
+    private final char SYMBOL;
 
     // Constructor
 
@@ -27,7 +27,7 @@ public class Wolf extends Animal {
      */
     public Wolf(int posX, int posY, int energy, int sheepEnegry, double reproductionProb) {
         super(posX, posY, energy, reproductionProb);
-        symbol = 'W';
+        SYMBOL = 'W';
         Wolf.sheepEnegry = sheepEnegry;
     }
 
@@ -84,8 +84,8 @@ public class Wolf extends Animal {
         int dx = deltaMove[randIndexX];
         int dy = deltaMove[randIndexY];
 
-        int newX = posX + dx;
-        int newY = posY + dy;
+        int newX = getPosX() + dx;
+        int newY = getPosY() + dy;
         if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
             setPosX(newX);
             setPosY(newY);
@@ -101,7 +101,7 @@ public class Wolf extends Animal {
     @Override
     public char getSymbol(int age) {
         if (age < 5)
-            return 'w';
-        return symbol;
+            return Character.toLowerCase(SYMBOL);
+        return SYMBOL;
     }
 }

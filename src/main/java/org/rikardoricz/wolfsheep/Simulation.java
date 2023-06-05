@@ -28,7 +28,7 @@ public class Simulation {
     /**
      * Simulation's duration in ticks
      */
-    private final int durationTicks;
+    private final int DURATION_TICKS;
 
     /**
      * Counter of simulation's ticks
@@ -47,7 +47,7 @@ public class Simulation {
     public Simulation(int width, int height, int durationTicks) {
         board = new Board(width, height);
         this.properties = new Properties();
-        this.durationTicks = durationTicks;
+        this.DURATION_TICKS = durationTicks;
     }
 
     /**
@@ -142,7 +142,7 @@ public class Simulation {
         System.out.println("Press any key to start the simulation...");
         new java.util.Scanner(System.in).nextLine();
 
-        for (int i = 0; i < durationTicks; i++) {
+        for (int i = 0; i < DURATION_TICKS; i++) {
             String [] tickData= board.getTickData();
             tickData[0] = Integer.toString(i);
 
